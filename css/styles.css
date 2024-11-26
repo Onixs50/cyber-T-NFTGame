@@ -153,32 +153,59 @@ body {
 
 /* Wallet Section */
 .wallet-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+   display: flex;
+   align-items: center;
+   gap: 20px;
+}
+
+.wallet-buttons {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+   gap: 10px;
 }
 
 .connect-button {
-    background: transparent;
-    border: 2px solid var(--neon-green);
-    color: var(--neon-green);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+   background: transparent;
+   border: 2px solid var(--neon-green);
+   color: var(--neon-green);
+   padding: 10px 20px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   position: relative;
+   overflow: hidden;
 }
 
 .connect-button:hover {
-    background: rgba(0, 255, 102, 0.1);
-    box-shadow: var(--neon-green-glow);
+   background: rgba(0, 255, 102, 0.1);
+   box-shadow: var(--neon-green-glow);
+}
+
+.connect-button.connected::before {
+   content: "Disconnect";
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: rgba(255, 0, 0, 0.1);
+   opacity: 0;
+   transition: opacity 0.3s ease;
+}
+
+.connect-button.connected:hover::before {
+   opacity: 1;
 }
 
 .wallet-address {
-    font-family: monospace;
-    padding: 8px 12px;
-    background: rgba(0, 255, 102, 0.1);
-    border-radius: 4px;
+   font-family: monospace;
+   padding: 8px 12px;
+   background: rgba(0, 255, 102, 0.1);
+   border-radius: 4px;
 }
-
 /* Token Stats */
 .token-stats {
     display: grid;
@@ -275,36 +302,33 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000;
     background: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    border-radius: 10px;
     border: 2px solid var(--neon-green);
+    padding: 30px;
+    border-radius: 15px;
     text-align: center;
-    max-width: 90vw;
-    width: auto;
+    z-index: 1100;
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
 
 .nft-success-container img {
     max-width: 300px;
-    max-height: 300px;
-    width: auto;
     height: auto;
-    margin-bottom: 15px;
-    border-radius: 8px;
+    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .achievement-title {
     color: var(--neon-green);
     font-size: 24px;
-    margin: 15px 0;
+    margin-bottom: 15px;
     text-shadow: var(--neon-green-glow);
 }
 
 .achievement-message {
     color: var(--neon-green);
     font-size: 16px;
-    margin-bottom: 15px;
 }
 /* Canvas for NFT display and explosion */
 #nft-canvas {
@@ -601,34 +625,52 @@ body {
     box-shadow: var(--neon-green-glow);
 }
 
-/* CyberID Cards */
+.cyber-ids {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   gap: 20px;
+   justify-content: start;
+   padding: 20px 0;
+}
+
 .cyber-id-card {
-    background: rgba(0, 255, 102, 0.05);
-    border: 1px solid var(--neon-green);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
-    max-width: 200px; /* Adjust the max-width to a suitable size */
+   background: rgba(0, 255, 102, 0.05);
+   border: 1px solid var(--neon-green);
+   padding: 15px;
+   border-radius: 8px;
+   transition: all 0.3s ease;
+   flex: 0 0 auto;
+   width: 200px;
 }
 
 .cyber-id-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 255, 102, 0.2);
+   transform: translateY(-5px);
+   box-shadow: 0 5px 15px rgba(0, 255, 102, 0.2);
 }
 
 .cyber-id-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    max-width: 150px; /* Adjust the max-width to a suitable size */
+   width: 100%;
+   height: auto;
+   border-radius: 4px;
+   margin-bottom: 10px;
 }
 
 .cyber-id-card .cyber-id-name {
-    font-size: 1rem;
-    color: var(--neon-green);
-    text-shadow: var(--neon-green-glow);
+   font-size: 1rem;
+   color: var(--neon-green);
+   text-shadow: var(--neon-green-glow);
+   text-align: center;
+}
+
+@media (max-width: 768px) {
+   .cyber-ids {
+       justify-content: center;
+   }
+   
+   .cyber-id-card {
+       width: 160px;
+   }
 }
 
 /* NFT Display */
@@ -717,4 +759,80 @@ body {
 .info-panel::-webkit-scrollbar-thumb {
     background: var(--neon-green);
     border-radius: 4px;
+}
+
+.nft-button {
+    background: transparent;
+    border: 2px solid var(--neon-green);
+    color: var(--neon-green);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+
+.nft-button:hover {
+    background: rgba(0, 255, 102, 0.1);
+    box-shadow: var(--neon-green-glow);
+}
+
+.modal-nft {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-nft.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-nft-content {
+    background: var(--modal-bg);
+    border: 2px solid var(--neon-green);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 90%;
+    width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.user-nfts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.wallet-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.nft-card {
+    max-width: 300px;
+    margin: auto;
+}
+
+.nft-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
