@@ -87,10 +87,10 @@ const CONTRACT_DATA = {
     // NFT Metadata
 NFT_METADATA: {
     IMAGES: {
-        1: "/assets/nft/1.png",
-        2: "/assets/nft/2.png",
-        3: "/assets/nft/3.png",
-        4: "/assets/nft/4.png"
+        1: "https://raw.githubusercontent.com/Onixs50/cyber-T-NFTGame/main/assets/nft/1.png",
+        2: "https://raw.githubusercontent.com/Onixs50/cyber-T-NFTGame/main/assets/nft/2.png",
+        3: "https://raw.githubusercontent.com/Onixs50/cyber-T-NFTGame/main/assets/nft/3.png",
+        4: "https://raw.githubusercontent.com/Onixs50/cyber-T-NFTGame/main/assets/nft/4.png"
     },
     NAMES: {
         1: "Pioneer Pass",
