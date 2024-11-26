@@ -25,40 +25,111 @@ class Web3Integration {
         });
     }
 
-    setupEventListeners() {
-        // Connect wallet button
-        const connectBtn = document.getElementById('connect-wallet');
-        if (connectBtn) {
-            connectBtn.addEventListener('click', () => {
-                if (this.connected) {
-                    this.disconnectWallet();
-                } else {
-                    document.getElementById('wallet-modal')?.classList.remove('hidden');
-                }
-            });
-        }
+setupEventListeners() {
+   const connectBtn = document.getElementById('connect-wallet');
+   if (connectBtn) {
+       connectBtn.addEventListener('click', () => {
+           if (this.connected) {
+               this.disconnectWallet();
+           } else {
+               document.getElementById('wallet-modal')?.classList.remove('hidden');
+           }
+       });
+   }
 
-        // Disconnect button
-        const disconnectBtn = document.getElementById('disconnect');
-        if (disconnectBtn) {
-            disconnectBtn.addEventListener('click', () => this.disconnectWallet());
-        }
+   const disconnectBtn = document.getElementById('disconnect');
+   if (disconnectBtn) {
+       disconnectBtn.addEventListener('click', () => this.disconnectWallet());
+   }
 
-        // Mint button
-        const mintBtn = document.getElementById('mint-nft');
-        if (mintBtn) {
-            mintBtn.addEventListener('click', () => this.mintNFT());
-        }
+   const mintBtn = document.getElementById('mint-nft');
+   if (mintBtn) {
+       mintBtn.addEventListener('click', () => this.mintNFT());
+   }
 
-        // Wallet options in modal
-        const walletOptions = document.querySelectorAll('.wallet-option');
-        walletOptions.forEach(option => {
-            option.addEventListener('click', (e) => {
-                const walletType = e.currentTarget.dataset.wallet;
-                this.connectWallet(walletType);
-            });
-        });
-    }
+   const walletOptions = document.querySelectorAll('.wallet-option');
+   walletOptions.forEach(option => {
+       option.addEventListener('click', (e) => {
+           const walletType = e.currentTarget.dataset.wallet;
+           this.connectWallet(walletType);
+       });
+   });
+
+   const showNftsBtn = document.getElementById('show-nfts');
+   if (showNftsBtn) {
+       showNftsBtn.addEventListener('click', async () => {
+           await this.showUserNFTs();
+       });
+   }
+
+   const nftModal = document.getElementById('nft-modal');
+   if (nftModal) {
+       nftModal.addEventListener('click', (e) => {
+           if (e.target === nftModal) {
+               nftModal.classList.remove('visible');
+               setTimeout(() => {
+                   nftModal.classList.add('hidden');
+               }, 300);
+           }
+       });
+   }
+}
+
+async showUserNFTs() {
+   // Check if wallet is connected and contract is initialized
+   if (!this.connected || !this.nftContract) {
+       Helpers.showMessage('Please connect your wallet first!', 'warning');
+       return;
+   }
+   const modal = document.getElementById('nft-modal');
+   const container = document.getElementById('user-nfts');
+   
+   if (!modal || !container) return;
+   
+   try {
+       // Check if user has any NFTs
+       const nftBalance = await this.nftContract.methods.balanceOf(this.currentAccount).call();
+       
+       if (nftBalance == 0) {
+           Helpers.showMessage('You don\'t have any NFTs yet!', 'info');
+           return;
+       }
+       
+       // Get transaction count to determine NFT level
+       const txCount = await this.web3.eth.getTransactionCount(this.currentAccount);
+       container.innerHTML = '';
+       
+       // Determine token ID based on transaction count
+       let tokenId;
+       if (txCount <= 30) tokenId = 1; // Pioneer
+       else if (txCount <= 60) tokenId = 2; // Explorer
+       else if (txCount <= 90) tokenId = 3; // Trailblazer
+       else tokenId = 4; // Legendary
+       
+       // Verify if user owns this specific NFT
+       const hasToken = await this.nftContract.methods.getTokenId(txCount).call();
+       
+       if (hasToken == tokenId) {
+           // Create and display NFT card
+           const nftCard = document.createElement('div');
+           nftCard.className = 'nft-card';
+           nftCard.innerHTML = `
+               <img src="${this.contracts.NFT_METADATA.IMAGES[tokenId]}" 
+                    alt="${this.contracts.NFT_METADATA.NAMES[tokenId]}">
+               <div class="nft-name">${this.contracts.NFT_METADATA.NAMES[tokenId]}</div>
+           `;
+           container.appendChild(nftCard);
+           modal.classList.remove('hidden');
+           modal.classList.add('visible');
+       } else {
+           Helpers.showMessage('You don\'t have this NFT yet!', 'info');
+       }
+
+   } catch (error) {
+       console.error('Error showing NFTs:', error);
+       Helpers.showMessage('Failed to load NFTs', 'error');
+   }
+}
 
     async connectWallet(walletType) {
         try {
@@ -247,16 +318,24 @@ async mintNFT() {
             gif: this.contracts.NFT_METADATA.GIFS[tokenType]
         };
 
-        // Show achievement animation
+        console.log('NFT Metadata:', nftMetadata); // Debug log
+
+        // Show achievement animation before minting
         if (window.nftAnimation) {
-            await window.nftAnimation.showAchievement({
-                gif: nftMetadata.gif,
-                name: nftMetadata.name,
-                description: nftMetadata.description
-            });
+            console.log('Showing achievement animation...'); // Debug log
+            try {
+                await window.nftAnimation.showAchievement({
+                    gif: nftMetadata.gif,
+                    name: nftMetadata.name,
+                    description: nftMetadata.description
+                });
+            } catch (err) {
+                console.error('Achievement animation error:', err); // Debug log
+            }
         }
 
         // Mint NFT
+        console.log('Starting NFT mint...'); // Debug log
         const tx = await this.nftContract.methods.mintNFT(txCount).send({
             from: this.currentAccount,
             value: this.web3.utils.toWei('0.00002', 'ether')
@@ -265,8 +344,9 @@ async mintNFT() {
         if (tx.status) {
             loading.classList.add('hidden');
             
-            // Show and explode NFT
+            // Show and explode NFT after successful mint
             if (window.nftAnimation) {
+                console.log('Showing NFT animation...'); // Debug log
                 await window.nftAnimation.showNFT(nftMetadata.image);
             }
             
@@ -277,21 +357,19 @@ async mintNFT() {
         }
     } catch (error) {
         console.error('Minting error:', error);
-        Helpers.showMessage(ContractHelpers.parseContractError(error), 'error');
-    } finally {
         loading.classList.add('hidden');
+        Helpers.showMessage(ContractHelpers.parseContractError(error), 'error');
     }
 }
 
-    updateBalanceUI(elementId, value) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-        
-        element.textContent = value;
-        element.classList.add('pulse');
-        setTimeout(() => element.classList.remove('pulse'), 1000);
-    }
-
+updateBalanceUI(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    element.textContent = value;
+    element.classList.add('pulse');
+    setTimeout(() => element.classList.remove('pulse'), 1000);
+}
     showNoCyberIdMessage() {
         const cyberIds = document.getElementById('cyber-ids');
         const noCyberIdMessage = document.getElementById('no-cyber-id');
@@ -352,52 +430,57 @@ async mintNFT() {
         }
     }
 
-    updateUI(action) {
-        const elements = {
-            walletModal: document.getElementById('wallet-modal'),
-            connectBtn: document.getElementById('connect-wallet'),
-            walletAddress: document.getElementById('wallet-address'),
-            disconnectBtn: document.getElementById('disconnect'),
-            mintBtn: document.getElementById('mint-nft')
-        };
+updateUI(action) {
+    const elements = {
+        walletModal: document.getElementById('wallet-modal'),
+        connectBtn: document.getElementById('connect-wallet'),
+        walletAddress: document.getElementById('wallet-address'),
+        mintBtn: document.getElementById('mint-nft')
+    };
 
-        if (action === 'connect' || action === 'accountChange') {
-            elements.walletModal?.classList.add('hidden');
-            if (elements.connectBtn) elements.connectBtn.textContent = 'Connected';
-            if (elements.walletAddress) {
-                elements.walletAddress.textContent = ContractHelpers.formatAddress(this.currentAccount);
-            }
-            elements.disconnectBtn?.classList.remove('hidden');
-            if (elements.mintBtn) elements.mintBtn.disabled = false;
-        } else if (action === 'disconnect') {
-            if (elements.connectBtn) elements.connectBtn.textContent = 'Connect Wallet';
-            if (elements.walletAddress) elements.walletAddress.textContent = '';
-            elements.disconnectBtn?.classList.add('hidden');
-            if (elements.mintBtn) elements.mintBtn.disabled = true;
-            this.resetDisplays();
+    if (action === 'connect' || action === 'accountChange') {
+        elements.walletModal?.classList.add('hidden');
+        if (elements.connectBtn) {
+            elements.connectBtn.textContent = 'Connected';
+            elements.connectBtn.classList.add('connected');
+        }
+        if (elements.walletAddress) {
+            elements.walletAddress.textContent = ContractHelpers.formatAddress(this.currentAccount);
+        }
+        document.getElementById('show-nfts')?.classList.remove('hidden');
+        if (elements.mintBtn) elements.mintBtn.disabled = false;
+    } else if (action === 'disconnect') {
+        if (elements.connectBtn) {
+            elements.connectBtn.textContent = 'Connect Wallet';
+            elements.connectBtn.classList.remove('connected');
+        }
+        if (elements.walletAddress) elements.walletAddress.textContent = '';
+        if (elements.mintBtn) elements.mintBtn.disabled = true;
+        this.resetDisplays();
+    }
+}
+async disconnectWallet() {
+    this.currentAccount = null;
+    this.connected = false;
+    this.web3 = null;
+    this.nftContract = null;
+    this.cyberIdContract = null;
+    this.cyberToken = null;
+    this.ccyberToken = null;
+
+    // Add these lines
+    document.getElementById('show-nfts')?.classList.add('hidden');
+    document.getElementById('nft-modal')?.classList.add('hidden');
+    
+    this.updateUI('disconnect');
+    
+    for (const provider of Object.values(this.supportedWallets)) {
+        if (provider) {
         }
     }
 
-    async disconnectWallet() {
-        this.currentAccount = null;
-        this.connected = false;
-        this.web3 = null;
-        this.nftContract = null;
-        this.cyberIdContract = null;
-        this.cyberToken = null;
-        this.ccyberToken = null;
-
-        this.updateUI('disconnect');
-        
-        for (const provider of Object.values(this.supportedWallets)) {
-            if (provider) {
-                provider.removeListener('accountsChanged', this.handleAccountChange);
-                provider.removeListener('chainChanged', this.handleChainChange);
-            }
-        }
-
-        Helpers.showMessage('Wallet disconnected', 'info');
-    }
+    Helpers.showMessage('Wallet disconnected', 'info');
+}
 }
 
 // Make Web3Integration available globally
