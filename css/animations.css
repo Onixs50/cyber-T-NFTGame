@@ -1,0 +1,376 @@
+/* animations.css */
+
+/* Landing Page Animations */
+@keyframes flash {
+    0%, 100% { 
+        background: #000; 
+    }
+    50% { 
+        background: #fff; 
+    }
+}
+
+.flash-animation {
+    animation: flash 0.1s ease-in-out 3;
+}
+
+/* Space Animation */
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.star {
+    animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+/* Title Animation */
+@keyframes zoomInTitle {
+    from {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.cyber-title {
+    animation: zoomInTitle 1s ease-out forwards;
+}
+
+/* Click Circles Animation */
+@keyframes expandCircle {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}
+
+.click-circle {
+    animation: expandCircle 0.8s ease-out forwards;
+}
+
+/* Matrix Rain Animation */
+@keyframes fadeInChar {
+    from { opacity: 0; }
+    to { opacity: 0.12; }
+}
+
+.matrix-char {
+    animation: fadeInChar 0.5s ease-out forwards;
+}
+
+/* Neon Glow Effects */
+@keyframes neonPulse {
+    0%, 100% {
+        text-shadow: 0 0 5px #0f6,
+                     0 0 10px #0f6,
+                     0 0 20px #0f6;
+    }
+    50% {
+        text-shadow: 0 0 10px #0f6,
+                     0 0 20px #0f6,
+                     0 0 30px #0f6,
+                     0 0 40px #0f6;
+    }
+}
+
+.neon-text {
+    animation: neonPulse 1.5s infinite;
+}
+
+/* Neon Line Animation */
+@keyframes neonFlow {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.neon-line {
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--neon-green),
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: neonFlow 3s linear infinite;
+}
+
+/* Loading Animation */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+    50% { border-color: transparent }
+}
+
+.typing-loader {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--neon-green);
+    animation: typing 3s steps(30) infinite,
+               blink 0.5s step-end infinite alternate;
+}
+
+/* NFT Animation Effects */
+@keyframes mintSuccess {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.nft-minted {
+    animation: mintSuccess 0.8s ease-out forwards;
+}
+
+/* Particle Effects */
+@keyframes particleFade {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(20px) scale(0);
+        opacity: 0;
+    }
+}
+
+.particle {
+    animation: particleFade var(--duration) ease-out forwards;
+}
+
+/* Button Hover Effects */
+@keyframes buttonGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--neon-green);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--neon-green),
+                    0 0 30px var(--neon-green);
+    }
+}
+
+.glow-button:hover {
+    animation: buttonGlow 1.5s infinite;
+}
+
+/* Card Hover Effects */
+@keyframes cardLift {
+    to {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 255, 102, 0.3);
+    }
+}
+
+.cyber-card:hover {
+    animation: cardLift 0.3s ease-out forwards;
+}
+
+/* Fade Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+/* CYBER Animation */
+@keyframes cyberMultiply {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+        background-color: #90EE90;
+    }
+    20% {
+        transform: scale(1.5);
+        opacity: 0.7;
+        background-color: #7CCD7C;
+    }
+    40% {
+        transform: scale(2);
+        opacity: 0.5;
+        background-color: #4CAF50;
+    }
+    60% {
+        transform: scale(2.5);
+        opacity: 0.3;
+        background-color: #228B22;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+        background-color: #006400;
+    }
+}
+
+.circle {
+    animation: cyberMultiply 3s infinite linear;
+}
+
+.circle:nth-child(1) { animation-delay: 0s; }
+.circle:nth-child(2) { animation-delay: 0.6s; }
+.circle:nth-child(3) { animation-delay: 1.2s; }
+.circle:nth-child(4) { animation-delay: 1.8s; }
+.circle:nth-child(5) { animation-delay: 2.4s; }
+
+@keyframes textCycle {
+    0%, 20% { content: "C"; }
+    20%, 40% { content: "Y"; }
+    40%, 60% { content: "B"; }
+    60%, 80% { content: "E"; }
+    80%, 100% { content: "R"; }
+}
+
+.circle::after {
+    animation: textCycle 3s infinite steps(1);
+}
+/* Responsive Animations */
+@media (max-width: 768px) {
+    .neon-text {
+        animation: neonPulse 2s infinite; /* Slower on mobile */
+    }
+
+    .particle {
+        --duration: 0.5s; /* Faster particles on mobile */
+    }
+}
+
+/* CYBER Animation */
+@keyframes cyberPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+.cyber-circle.active {
+    animation: cyberPulse 0.8s ease-in-out infinite;
+}
+
+/* NFT Success Animation */
+@keyframes zoomInSuccess {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.nft-success-container {
+    animation: zoomInSuccess 0.5s ease-out forwards;
+}
+
+/* Particle Animation */
+@keyframes particleFall {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty));
+        opacity: 0;
+    }
+}
+
+.particle {
+    position: absolute;
+    animation: particleFall var(--duration) ease-in forwards;
+}
+
+/* Info Panel Animations */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-panel.visible {
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Button Pulse Animation */
+@keyframes buttonPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.4);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(0, 255, 102, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 102, 0);
+    }
+}
+
+.mint-button:not(:disabled):hover {
+    animation: buttonPulse 1.5s infinite;
+}
