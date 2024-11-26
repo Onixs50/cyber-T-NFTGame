@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-L2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="landing-page">
+        <div id="flash-container" class="flash-container"></div>
+        <div id="space-container" class="space-container hidden">
+            <div id="stars"></div>
+        </div>
+        <div id="title-container" class="title-container hidden">
+            <h1 class="cyber-title">Cyber-L2</h1>
+        </div>
+        <div id="click-circles" class="click-circles"></div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app hidden">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="cyber-logo">Neonic Cyber</div>
+            <div class="wallet-container">
+                <button id="connect-wallet" class="connect-button">Connect Wallet</button>
+                <span id="wallet-address" class="wallet-address"></span>
+                <span id="disconnect" class="disconnect hidden">Disconnect</span>
+            </div>
+        </div>
+
+        <!-- CyberID Section -->
+        <div class="cyber-id-section">
+            <div id="cyber-ids" class="cyber-ids"></div>
+            <div id="no-cyber-id" class="no-cyber-id hidden">
+                <p class="neon-text">No CyberID Found!</p>
+                <a href="https://cyber.co/cyber-id/mint" class="mint-link">Mint Your CyberID</a>
+            </div>
+        </div>
+
+        <!-- Token Stats -->
+        <div class="token-stats">
+            <div class="stat-card">
+                <h3>ETH Balance</h3>
+                <span id="eth-balance">0.0000</span>
+            </div>
+            <div class="stat-card">
+                <h3>CYBER Token</h3>
+                <span id="cyber-balance">0.0000</span>
+            </div>
+            <div class="stat-card">
+                <h3>cCYBER Token</h3>
+                <span id="ccyber-balance">0.0000</span>
+            </div>
+            <div class="stat-card">
+                <h3>Transactions</h3>
+                <span id="tx-count">0</span>
+            </div>
+        </div>
+
+        <!-- Neon Line Separator -->
+        <div class="neon-line"></div>
+
+        <!-- NFT Section -->
+        <div class="nft-section">
+            <h2>NFT Minting Station</h2>
+            <p>Cost: 0.00002 ETH</p>
+            <button id="mint-nft" class="mint-button" disabled>Mint NFT</button>
+            
+            <!-- Typing Loading Animation -->
+            <div id="loading" class="loading-container hidden">
+                <span class="typing-text">Minting your NFT</span>
+            </div>
+
+            <!-- NFT Display -->
+            <div id="nft-display" class="nft-display"></div>
+            <canvas id="nft-canvas" class="nft-canvas hidden"></canvas>
+        </div>
+
+        <!-- Matrix Rain Animation -->
+        <div id="matrix-rain" class="matrix-rain"></div>
+
+<!-- Info Panel -->
+<div class="info-section">
+    <button id="info-button" class="info-button">
+        <i class="fas fa-info-circle"></i>
+    </button>
+    
+    <div id="info-panel" class="info-panel">
+        <div class="info-content">
+            <h3>About Cyber-L2</h3>
+            <div class="info-section-text">
+                <p>Welcome to the future of blockchain achievement! Based on your transaction count, you can earn unique NFTs:</p>
+                
+                <div class="achievement-levels">
+                    <h4>NFT Achievement Levels</h4>
+                    <ul>
+                        <li><strong>Pioneer Pass (1-30 tx):</strong> Early adopter badge for your first steps</li>
+                        <li><strong>Explorer Badge (31-60 tx):</strong> Proven network participant</li>
+                        <li><strong>Trailblazer Token (61-90 tx):</strong> Advanced user recognition</li>
+                        <li><strong>Legendary Crest (91+ tx):</strong> Elite contributor status</li>
+                    </ul>
+                </div>
+
+                <p class="cyber-id-note">Don't have a CyberID yet? Mint yours <a href="https://cyber.co/cyber-id/mint" target="_blank" class="neon-link">here</a> to establish your unique identity in the Cyber ecosystem.</p>
+                
+                <p class="future-note">💡 Pro tip: Engaging with Optimism's Superchain isn't just about transactions – it's about being part of the next generation of blockchain innovation. Every transaction brings you closer to exclusive rewards!</p>
+                
+                <div class="social-links">
+                    <a href="https://twitter.com/sadeghss50" class="social-link twitter" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://github.com/onixs50" class="social-link github" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        <!-- Wallet Modal -->
+        <div id="wallet-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Connect Your Wallet</h3>
+                <div class="wallet-options">
+                    <div class="wallet-option" data-wallet="metamask">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
+                        <span>MetaMask</span>
+                    </div>
+                    <div class="wallet-option" data-wallet="okx">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/OKX_logo.svg" alt="OKX">
+                        <span>OKX Wallet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.2/web3.min.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/contracts.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/web3.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
