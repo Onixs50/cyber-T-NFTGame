@@ -8,12 +8,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/responsive.css">          
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Onixs50/cyber-T-NFTGame/refs/heads/main/favicon.ico">
-
+    <link rel="stylesheet" href="css/responsive.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
     <!-- Landing Page -->
     <div id="landing-page" class="landing-page">
@@ -29,16 +26,25 @@
 
     <!-- Main Application -->
     <div id="app" class="app hidden">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="cyber-logo">Neonic Cyber</div>
-            <div class="wallet-container">
-                <button id="connect-wallet" class="connect-button">Connect Wallet</button>
-                <span id="wallet-address" class="wallet-address"></span>
-                <span id="disconnect" class="disconnect hidden">Disconnect</span>
-            </div>
-        </div>
-
+<!-- Top Bar -->
+<div class="top-bar">
+   <div class="cyber-logo">Neonic Cyber</div>
+   <div class="wallet-container">
+       <div class="wallet-buttons">
+           <button id="connect-wallet" class="connect-button">Connect Wallet</button>
+           <span id="wallet-address" class="wallet-address"></span>
+           <button id="show-nfts" class="nft-button hidden">My NFTs</button>
+       </div>
+   </div>
+</div>
+<!-- NFT Modal -->
+<div id="nft-modal" class="modal-nft hidden">
+   <div class="modal-nft-content">
+       <div id="user-nfts" class="user-nfts">
+           <!-- NFTs will be loaded here -->
+       </div>
+   </div>
+</div>
         <!-- CyberID Section -->
         <div class="cyber-id-section">
             <div id="cyber-ids" class="cyber-ids"></div>
